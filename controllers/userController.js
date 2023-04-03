@@ -1,4 +1,5 @@
 const model = require('../models/user');
+const Story = require('../models/story');
 
 exports.new = (req, res)=>{
     res.render('./user/new');
@@ -56,8 +57,14 @@ exports.login = (req, res, next)=>{
 
 exports.profile = (req, res, next)=>{
     let id = req.session.user;
-    model.findById(id) 
-    .then(user=>res.render('./user/profile', {user}))
+    // using all promises and order doesn't matter instead of chaining
+    Promise.all([model.findById(id), Story.find({author: id})]) 
+    .then(results => 
+        {
+            const [user, stories] = results;
+            res.render('./user/profile', {user, stories})
+        }
+        )
     .catch(err=>next(err));
 };
 
