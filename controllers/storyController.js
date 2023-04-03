@@ -5,7 +5,7 @@ exports.index = (req, res, next)=>{
     .catch(err=>next(err));
 };
 
-exports.new = (req, res)=>{
+exports.new = (req, res) => {
     res.render('./story/new');
 };
 
