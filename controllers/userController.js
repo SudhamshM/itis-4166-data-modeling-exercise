@@ -2,20 +2,11 @@ const model = require("../models/user");
 const Story = require("../models/story");
 
 exports.new = (req, res) => {
-  if (!req.session.user)
-  {
     res.render("./user/new");
-  }
-  else
-  {
-    req.flash("error", "You are logged in already.");
-    return res.redirect("/users/profile");
-  }
 };
 
-exports.create = (req, res, next) => {
-  if (!req.session.user) 
-  {
+exports.create = (req, res, next) => 
+{
     let user = new model(req.body);
     user.save()
     .then((user) => res.redirect("/users/login"))
@@ -35,33 +26,16 @@ exports.create = (req, res, next) => {
 
         next(err);
       });
-  }
-  else
-  {
-    req.flash("error", "You are logged in already.");
-    return res.redirect("/users/profile");
-  }
 };
 
 exports.getUserLogin = (req, res, next) => 
 {
-    if (!req.session.user)
-    {
-      res.render("./user/login");
-    }
-    else
-    {
-        req.flash("error", "You are logged in already.");
-        return res.redirect("/users/profile");
-    }
-  
+    res.render("./user/login");
 };
 
 exports.login = (req, res, next) => 
 {
-    if (!req.session.user)
-    {
-        let email = req.body.email;
+    let email = req.body.email;
         let password = req.body.password;
         model
           .findOne({ email: email })
@@ -90,12 +64,6 @@ exports.login = (req, res, next) =>
             }
           })
           .catch((err) => next(err));
-    }
-    else
-    {
-        req.flash("error", "You are logged in already.");
-        return res.redirect("/users/profile");
-    }
 };
 
 exports.profile = (req, res, next) => 

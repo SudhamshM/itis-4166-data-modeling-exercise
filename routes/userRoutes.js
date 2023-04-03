@@ -1,19 +1,20 @@
 const express = require('express');
 const controller = require('../controllers/userController');
+const {isGuest} = require('../middleware/auth');
 
 const router = express.Router();
 
 //GET /users/new: send html form for creating a new user account
-router.get('/new', controller.new);
+router.get('/new', isGuest, controller.new);
 
 //POST /users: create a new user account
-router.post('/', controller.create);
+router.post('/', isGuest, controller.create);
 
 //GET /users/login: send html for logging in
-router.get('/login', controller.getUserLogin);
+router.get('/login', isGuest, controller.getUserLogin);
 
 //POST /users/login: authenticate user's login
-router.post('/login', controller.login);
+router.post('/login', isGuest, controller.login);
 
 //GET /users/profile: send user's profile page
 router.get('/profile', controller.profile);
