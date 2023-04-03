@@ -1,4 +1,5 @@
 const model = require('../models/story');
+
 exports.index = (req, res, next)=>{
     model.find()
     .then(stories=>res.render('./story/index', {stories}))
