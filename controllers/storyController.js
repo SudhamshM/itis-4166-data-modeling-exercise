@@ -47,21 +47,11 @@ exports.show = (req, res, next)=>{
 
 exports.edit = (req, res, next)=>{
     let id = req.params.id;
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) {
-        let err = new Error('Invalid story id');
-        err.status = 400;
-        return next(err);
-    }
     model.findById(id)
-    .then(story=>{
-        if(story) {
+    .then(story =>
+        {
             return res.render('./story/edit', {story});
-        } else {
-            let err = new Error('Cannot find a story with id ' + id);
-            err.status = 404;
-            next(err);
-        }
-    })
+        })
     .catch(err=>next(err));
 };
 
@@ -69,21 +59,10 @@ exports.update = (req, res, next)=>{
     let story = req.body;
     let id = req.params.id;
 
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) {
-        let err = new Error('Invalid story id');
-        err.status = 400;
-        return next(err);
-    }
-
     model.findByIdAndUpdate(id, story, {useFindAndModify: false, runValidators: true})
-    .then(story=>{
-        if(story) {
-            res.redirect('/stories/'+id);
-        } else {
-            let err = new Error('Cannot find a story with id ' + id);
-            err.status = 404;
-            next(err);
-        }
+    .then(story =>
+        {
+        res.redirect('/stories/'+id);
     })
     .catch(err=> {
         if(err.name === 'ValidationError')
@@ -95,21 +74,10 @@ exports.update = (req, res, next)=>{
 exports.delete = (req, res, next)=>{
     let id = req.params.id;
 
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) {
-        let err = new Error('Invalid story id');
-        err.status = 400;
-        return next(err);
-    }
-
     model.findByIdAndDelete(id, {useFindAndModify: false})
-    .then(story =>{
-        if(story) {
+    .then(story => 
+        {
             res.redirect('/stories');
-        } else {
-            let err = new Error('Cannot find a story with id ' + id);
-            err.status = 404;
-            return next(err);
-        }
-    })
+        })
     .catch(err=>next(err));
 };

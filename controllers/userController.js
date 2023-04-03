@@ -1,7 +1,8 @@
 const model = require("../models/user");
 const Story = require("../models/story");
 
-exports.new = (req, res) => {
+exports.new = (req, res) => 
+{
     res.render("./user/new");
 };
 
