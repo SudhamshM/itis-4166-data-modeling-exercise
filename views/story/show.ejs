@@ -1,6 +1,6 @@
 <%- include('../partials/header.ejs')%>
        <h4><%= story.title%></h4>
-       <small>Posted <%= story.createdAt%> by <%= story.author%></small>
+       <small>Posted <%= story.createdAt%> by <%= story.author.firstName + ' ' + story.author.lastName%></small>
        <div id = "story"><%= story.content%></div>
        <form>
           <button type = "submit" formmethod = "GET" formaction = "/stories/<%= story.id%>/edit">Edit</button>

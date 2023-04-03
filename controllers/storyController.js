@@ -10,8 +10,9 @@ exports.new = (req, res)=>{
 };
 
 exports.create = (req, res, next)=>{
-    let story = new model(req.body);//create a new story document
-    story.save()//insert the document to the database
+    let story = new model(req.body); //create a new story document
+    story.author = req.session.user;
+    story.save() //insert the document to the database
     .then(story=> res.redirect('/stories'))
     .catch(err=>{
         if(err.name === 'ValidationError' ) {
@@ -30,7 +31,7 @@ exports.show = (req, res, next)=>{
         err.status = 400;
         return next(err);
     }
-    model.findById(id)
+    model.findById(id).populate('author', 'firstName lastName')
     .then(story=>{
         if(story) {       
             return res.render('./story/show', {story});
