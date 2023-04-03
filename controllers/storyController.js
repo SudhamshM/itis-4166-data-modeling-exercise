@@ -32,7 +32,7 @@ exports.show = (req, res, next)=>{
         err.status = 400;
         return next(err);
     }
-    model.findById(id).populate('author', 'firstName lastName')
+    model.findById(id).populate('author')
     .then(story=>{
         if(story) {       
             return res.render('./story/show', {story});
