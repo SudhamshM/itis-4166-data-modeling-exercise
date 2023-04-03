@@ -27,11 +27,6 @@ exports.create = (req, res, next)=>{
 exports.show = (req, res, next)=>{
     let id = req.params.id;
     //an objectId is a 24-bit Hex string
-    if(!id.match(/^[0-9a-fA-F]{24}$/)) {
-        let err = new Error('Invalid story id');
-        err.status = 400;
-        return next(err);
-    }
     model.findById(id).populate('author')
     .then(story=>{
         if(story) {       
@@ -73,7 +68,6 @@ exports.update = (req, res, next)=>{
 
 exports.delete = (req, res, next)=>{
     let id = req.params.id;
-
     model.findByIdAndDelete(id, {useFindAndModify: false})
     .then(story => 
         {
